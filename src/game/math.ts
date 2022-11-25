@@ -11,34 +11,30 @@ export const randomAngle=()=>{
 
 export const moveToRandomAngle=(e:Entitty): Entitty=>{
     let shouldChangeDir = Math.floor(Math.random()*50)
-    let direction = shouldChangeDir?e.direction:  randomAngle()
-    let nx=e.x+ SPEED* Math.sin(direction)
-    let ny = e.y + SPEED* Math.cos(direction)
+    let direction = shouldChangeDir?e[3]:  randomAngle()
+    let nx=e[1]+ SPEED* Math.sin(direction)
+    let ny = e[2] + SPEED* Math.cos(direction)
     if(nx<=0 || nx>= CANVAS_WIDTH || ny<=0 || ny>= CANVAS_HEIGHT){
       direction += Math.PI
-      nx=e.x+ SPEED* Math.sin(direction)
-      ny = e.y +SPEED* Math.cos(direction)
+      nx=e[1]+ SPEED* Math.sin(direction)
+      ny = e[2] +SPEED* Math.cos(direction)
      
     }
-    return{
-      x:nx,y:ny,
-      char: e.char,
-      direction,
-    }
+    return [e[0], nx,ny,direction]
   }
 export const collisionBox = 60
 export const hasCollided=(e1: Entitty, e2: Entitty)=>{
   let l1 = {
-    x: e1.x,
-    y: e1.y-collisionBox/2
+    x: e1[1],
+    y: e1[2]-collisionBox/2
   }
   let r1 = {
-    x: e1.x + collisionBox,
-    y: e1.y + collisionBox/2
+    x: e1[1] + collisionBox,
+    y: e1[2] + collisionBox/2
   }
   
-  if(isInbetween(l1.x,r1.x, e2.x) || isInbetween(l1.x,r1.x,e2.x + collisionBox)){
-    return isInbetween(l1.y,r1.y, e2.y - collisionBox/2) || isInbetween(l1.y,r1.y, e2.y + collisionBox/2)
+  if(isInbetween(l1.x,r1.x, e2[1]) || isInbetween(l1.x,r1.x,e2[1] + collisionBox)){
+    return isInbetween(l1.y,r1.y, e2[2]- collisionBox/2) || isInbetween(l1.y,r1.y, e2[2] + collisionBox/2)
   }
   return false
 }

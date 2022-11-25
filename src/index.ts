@@ -13,7 +13,7 @@ export const io = new sc.Server(httpServer, {
 });
 setInterval(()=>{
     animate()
-},1000/50)
+},1000/30)
 
 io.on("connect", (socket) => {
     socket.on('place-bet',(e:User)=>{

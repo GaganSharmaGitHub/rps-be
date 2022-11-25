@@ -1,9 +1,9 @@
-import { Entitty, scene, ScoreBoard } from "./interfaces"
+import { chars, Entitty, scene, ScoreBoard } from "./interfaces"
 import { hasCollided, moveToRandomAngle } from "./math"
 
 export const moveBoard=(board: Entitty[])=>{
     for(let i =0;i<board.length;i++){
-      scene.scoreBoard[board[i].char]+=1
+      scene.scoreBoard[chars[board[i][0]]]+=1
         board[i]= moveToRandomAngle(board[i])
     }
     for(let i =0;i<board.length;i++){
@@ -11,7 +11,7 @@ export const moveBoard=(board: Entitty[])=>{
         if(i!=j){
             if(hasCollided(board[i], board[j]) && hasPower(board[i], board[j])){
                 let ei = board[i]
-                ei.char= '💀'
+                ei[0]= 3
                 board[i]
             }
         }
@@ -19,20 +19,20 @@ export const moveBoard=(board: Entitty[])=>{
     }
 }
 export const cleanBoard=()=>{
-    scene.board = scene.board.filter(e=> e.char !== '💀')
+    scene.board = scene.board.filter(e=> e[0] !== 3)
 }
 // e2 can kill e1
 export const hasPower=(e1:Entitty,e2:Entitty)=>{
-    if(e1.char === "💀" || e2.char ==="💀" || e1.char=== e2.char ){
+    if(e1[0] == 3 || e2[0] === 3 || e1[0]=== e2[0] ){
         return false
     }
 
-    if(e1.char === "🧻"){
-        return e2.char === "✂️"
-    }else if(e1.char === "✂️"){
-        return e2.char === "🗿"
+    if(e1[0] === 1){
+        return e2[0] === 2
+    }else if(e1[0] === 2){
+        return e2[0] === 0
     }
-    return e2.char === "🧻"
+    return e2[0] === 1
 }
 
 export const getWinner = (scoreBoard: ScoreBoard)=>{

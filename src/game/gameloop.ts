@@ -1,7 +1,7 @@
 import { io } from ".."
 import { BASE_SCORE_BOARD, PLAYERS } from "./data"
 import { cleanBoard, getWinner, moveBoard } from "./game"
-import { resetBoard, resetGame, scene, users } from "./interfaces"
+import { chars, resetBoard, resetGame, scene, users } from "./interfaces"
 
 export const animate = () => {
   if (scene.type == 'message') {
@@ -22,7 +22,7 @@ export const animate = () => {
       for(const uid of Array.from(users.keys())){
         let user = users.get(uid)
         if(user){
-          user.isWinner = winner == user.bet
+          user.isWinner = winner == chars[user.bet]
           users.set(uid,user)
         io.emit('bets', Array.from(users.values()))
         }

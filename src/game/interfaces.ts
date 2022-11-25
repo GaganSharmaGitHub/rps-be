@@ -2,17 +2,18 @@ import { io } from ".."
 import { INTERVAL_TIME , PLAYERS , CANVAS_HEIGHT, CANVAS_WIDTH,BASE_SCORE_BOARD } from "./data"
 import { randomAngle, randomPosition } from "./math"
 
-export const chars = ["🗿", "🧻","✂️"] as const
+export const chars = ["🗿", "🧻","✂️", "💀"] as const
 
+export const charIndex = {
+  "🗿":0,
+  "🧻":1,
+  "✂️":2
+}
 export let yourBet: typeof chars[number] = '🗿'
 export let changeBet= (b:typeof chars[number]) => yourBet= b
+// char,x,y,dir
+export type Entitty = [0|1|2|3, number, number, number]
 
-export interface Entitty{
-    x: number,
-    y: number,
-    direction: number
-    char: (typeof chars[number]) | "💀"
-  }
 export interface Scene{
   type: 'game' | 'message'
   timer: number
@@ -36,7 +37,7 @@ winner:''
 }
 export interface User{
   userId: string
-  bet: typeof chars[number]
+  bet: number
   isWinner: boolean
 }
 
@@ -53,14 +54,14 @@ export const resetGame = (winner?: string)=>{
 }
 export const resetBoard = ()=>{
   scene.scoreBoard=BASE_SCORE_BOARD()
-  let board = []
+  let board:Entitty[] = []
   for(let i=0;i<3*PLAYERS;i++){
-    board.push({
-      char: chars[i%3],
-      x: randomPosition(CANVAS_WIDTH),
-      y: randomPosition(CANVAS_HEIGHT),
-      direction: randomAngle()
-    })
+    board.push([
+       i%3 as 0|1|2,
+       randomPosition(CANVAS_WIDTH),
+     randomPosition(CANVAS_HEIGHT),
+    randomAngle()
+    ])
     scene.scoreBoard[chars[i%3]]+=1
   }
   scene.board = board
