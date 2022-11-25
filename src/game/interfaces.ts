@@ -37,6 +37,7 @@ winner:''
 export interface User{
   userId: string
   bet: typeof chars[number]
+  isWinner: boolean
 }
 
 export const users = new Map<string, User>()
