@@ -1,6 +1,6 @@
 export const CANVAS_WIDTH = 1500
 export const CANVAS_HEIGHT = 850
-export const PLAYERS = 20
+export const PLAYERS = 10
 export const SPEED = 4
 export const INTERVAL_TIME = 15
 
